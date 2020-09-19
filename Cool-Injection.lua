@@ -88,3 +88,7 @@ MainFrame:TweenPosition(UDim2.new(0.5, 0, 0.5, 0))
 wait(3.1)
 
 MainFrame:TweenPosition(UDim2.new(0.5, 0, 1.5, 0))
+
+wait(3.1)
+
+MainFrame:Destroy()
