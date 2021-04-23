@@ -4,19 +4,34 @@ local error = function() end
 
 math.randomseed(tick())
 
-function RandomCharacters(length)
-	local STR = ''
-	
+local function ParentGui(Gui)
+	local HttpService = game:GetService("HttpService")
+	local CoreGui = game:GetService("CoreGui")
+	Gui.Name = HttpService:GenerateGUID(false):gsub("-", ""):sub(1, math.random(25, 30))
+	if (not is_sirhurt_closure) and (syn and syn.protect_gui) then
+		syn.protect_gui(Gui)
+		Gui.Parent = CoreGui
+	elseif get_hidden_gui or gethui then
+		local HiddenUI = get_hidden_gui or gethui
+		Gui.Parent = HiddenUI()
+	elseif CoreGui:FindFirstChild("RobloxGui") then
+		Gui.Parent = CoreGui["RobloxGui"]
+	else
+		Gui.Parent = CoreGui
+	end
+end
+
+local function RandomCharacters(length)
+	local STR = ""
 	for i = 1, length do
 		STR = STR .. string.char(math.random(65,90))
 	end
-	
 	return STR
 end
 
 if getgenv().dex_ui ~= nil then getgenv().dex_ui:remove() getgenv().dex_ui = nil end
 
-CreateGui = function()
+local CreateGui = function()
 local ROBLOX = Instance.new("ScreenGui")
 local PropertiesFrame = Instance.new("Frame")
 local Header = Instance.new("Frame")
@@ -272,10 +287,11 @@ Version.Position = UDim2.new(0, 0, 0, 15)
 Version.Size = UDim2.new(0, 30, 0, 20)
 Version.ZIndex = 2
 Version.Font = Enum.Font.SourceSansBold
-Version.Text = "V2.0.0"
+Version.Text = ""
 Version.TextColor3 = Color3.fromRGB(255, 255, 255)
 Version.TextSize = 12
 Version.TextWrapped = true
+Version.Visible = false
 
 Slant.Name = "Slant"
 Slant.Parent = SideMenu
@@ -444,11 +460,12 @@ Icon_6.ImageTransparency = 1
 
 Toggle_2.Name = "Toggle"
 Toggle_2.Parent = ROBLOX
-Toggle_2.BackgroundColor3 = Color3.fromRGB(233, 233, 233)
+Toggle_2.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
 Toggle_2.BorderColor3 = Color3.fromRGB(149, 149, 149)
 Toggle_2.Position = UDim2.new(1, 0, 0, 0)
 Toggle_2.Size = UDim2.new(0, 30, 0, 30)
 Toggle_2.Font = Enum.Font.SourceSans
+Toggle_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 Toggle_2.Text = "<"
 Toggle_2.TextSize = 24
 
@@ -1311,10 +1328,11 @@ Version_2.Position = UDim2.new(0, 100, 0, 210)
 Version_2.Size = UDim2.new(0, 100, 0, 30)
 Version_2.ZIndex = 4
 Version_2.Font = Enum.Font.SourceSansBold
-Version_2.Text = "V2.0.0"
+Version_2.Text = ""
 Version_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 Version_2.TextSize = 28
 Version_2.TextWrapped = true
+Version_2.Visible = false
 
 Creator.Name = "Creator"
 Creator.Parent = IntroFrame
@@ -1896,7 +1914,7 @@ return ROBLOX
 end
 
 local D_E_X = CreateGui()
-D_E_X.Parent = game:GetService("CoreGui");
+ParentGui(D_E_X)
 
 spawn(function()
 
@@ -1972,7 +1990,7 @@ local Windows = {
 	About = {AboutWindow}
 }
 
-function switchWindows(wName,over)
+local function switchWindows(wName,over)
 	if CurrentWindow == wName and not over then return end
 	
 	local count = 0
@@ -2006,7 +2024,7 @@ function switchWindows(wName,over)
 	end
 end
 
-function toggleDex(on)
+local function toggleDex(on)
 	if on then
 		SideMenu:TweenPosition(UDim2.new(1, -330, 0, 0), "Out", "Quad", 0.5, true)
 		OpenToggleButton:TweenPosition(UDim2.new(1,0,0,0), "Out", "Quad", 0.5, true)
@@ -2026,7 +2044,7 @@ local Settings = {
 	SaveInstanceScripts = true;
 }
 
-function ReturnSetting(set)
+local function ReturnSetting(set)
 	if set == "ClearProps" then
 		return Settings.ClearProps
 	elseif set == "SelectUngrouped" then
