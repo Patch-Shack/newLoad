@@ -1,7 +1,7 @@
 local coregui = game:GetService("CoreGui");
 assert(not getgenv().dex_loaded, "Dex is already loaded");
 getgenv().dex_loaded = true
--- math.randomseed(tick())
+math.randomseed(tick())
 local UserInputService = game:GetService("UserInputService");
 
 local TweenService = game:GetService("TweenService");
@@ -7068,7 +7068,7 @@ Change log:
 	
 --]]
 
-wait(0.01)
+wait(0.2)
 
 -- Services
 local Teams = game:GetService("Teams")
@@ -10120,6 +10120,6 @@ function ScrambleNames(A)
 	end
 end
 
-wait()
+wait(0.25)
 
 ParentGui(D_E_X)
