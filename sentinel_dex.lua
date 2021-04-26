@@ -1,12 +1,30 @@
 local coregui = game:GetService("CoreGui");
 assert(not getgenv().dex_loaded, "Dex is already loaded");
 getgenv().dex_loaded = true
-math.randomseed(tick())
+-- math.randomseed(tick())
 local UserInputService = game:GetService("UserInputService");
 
-local TweenService = game:service'TweenService';
-local setthreadcontext = setthreadcontext or syn.set_thread_identity;
-function RandomCharacters(length)
+local TweenService = game:GetService("TweenService");
+local setthreadcontext = setthreadcontext or (syn and syn.set_thread_identity) or setthreadidentity;
+
+local function ParentGui(Gui)
+	local CoreGui = game:GetService("CoreGui")
+	local HttpService = game:GetService("HttpService")
+	Gui.Name = HttpService:GenerateGUID(false):gsub("-", ""):sub(1, math.random(25, 30))
+	if (not is_sirhurt_closure) and (syn and syn.protect_gui) then
+		syn.protect_gui(Gui)
+		Gui.Parent = CoreGui
+	elseif get_hidden_gui or gethui then
+		local HiddenUI = get_hidden_gui or gethui
+		Gui.Parent = HiddenUI()
+	elseif CoreGui:FindFirstChild("RobloxGui") then
+		Gui.Parent = CoreGui["RobloxGui"]
+	else
+		Gui.Parent = CoreGui
+	end
+end
+
+local function RandomCharacters(length)
 	local STR = "";
 	for i = 1, length do
 		STR = STR .. string.char(math.random(65,90));
@@ -67,6 +85,7 @@ local topbarFrame = mainFrame.topbarFrame;
 local exitBtn = topbarFrame.exitBtn;
 local miniBtn = topbarFrame.miniBtn;
 local sentinelLogo = topbarFrame.sentinelLogo;
+sentinelLogo.Visible = false
 local scriptsFrame = mainFrame.scriptsFrame;
 local scriptsScrollingFrame = scriptsFrame.scriptsScrollingFrame;
 local scriptsBox = scriptsScrollingFrame.scriptsBox;
@@ -83,7 +102,7 @@ local dlogs, logs = {}, {};
 local syntaxHighlight, transformPath, dumpTable, ValueToReadable;
 local textYSize = scriptsBox.TextSize;
 dexSpy.Enabled = false;
-dexSpy.Parent = coregui;
+ParentGui(dexSpy)
 
 local function draggable(obj)
 	spawn(function()
@@ -571,6 +590,7 @@ local topbarFrame = mainFrame.topbarFrame;
 local exitBtn = topbarFrame.exitBtn;
 local miniBtn = topbarFrame.miniBtn;
 local sentinelLogo = topbarFrame.sentinelLogo;
+sentinelLogo.Visible = false
 local scriptsFrame = mainFrame.scriptsFrame;
 local scriptsScrollingFrame = scriptsFrame.scriptsScrollingFrame;
 local dumpsFrame = mainFrame.dumpsFrame;
@@ -580,7 +600,7 @@ local clearBtn = mainFrame.clearBtn;
 local copyBtn = mainFrame.copyBtn;
 local currentButton;
 scriptDumper.Enabled = false;
-scriptDumper.Parent = coregui;
+ParentGui(scriptDumper);
 
 do --// UI Setup
     draggable(mainFrame);
@@ -947,7 +967,8 @@ Version.Position = UDim2.new(0, 0, 0, 15)
 Version.Size = UDim2.new(0, 30, 0, 20)
 Version.ZIndex = 2
 Version.Font = Enum.Font.SourceSansBold
-Version.Text = "V2.0.1"
+Version.Text = ""
+Version.Visible = false
 Version.TextColor3 = Color3.fromRGB(197, 28, 70)
 Version.TextSize = 12
 Version.TextWrapped = true
@@ -1952,6 +1973,7 @@ Title_8.BackgroundTransparency = 1
 Title_8.Position = UDim2.new(0, 100, 0, 110)
 Title_8.Size = UDim2.new(0, 100, 0, 100)
 Title_8.ZIndex = 4
+Title_8.Visible = false
 Title_8.Image = "http://www.roblox.com/asset/?id=4540274383"
 Title_8.ScaleType = Enum.ScaleType.Fit
 
@@ -1963,7 +1985,7 @@ Version_2.Position = UDim2.new(0, 100, 0, 225)
 Version_2.Size = UDim2.new(0, 100, 0, 30)
 Version_2.ZIndex = 4
 Version_2.Font = Enum.Font.SourceSansBold
-Version_2.Text = "V2.0.1\nEdited by Google Chrome & CriShoux"
+Version_2.Text = "Dex"
 Version_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 Version_2.TextSize = 19
 
@@ -2464,6 +2486,7 @@ TextLabel_6.TextSize = 14
 TextLabel_6.TextXAlignment = Enum.TextXAlignment.Left
 
 Title_9.Name = "Logo"
+Title_9.Visible = false
 Title_9.Parent = AboutWindow
 Title_9.BackgroundTransparency = 1
 Title_9.Position = UDim2.new(0, 100, 0, 70)
@@ -2479,7 +2502,7 @@ Desc_6.BackgroundTransparency = 1
 Desc_6.Position = UDim2.new(0.1, 0, 0.1, 0)
 Desc_6.Size = UDim2.new(0.8, 0, 0, 200)
 Desc_6.Font = Enum.Font.SourceSans
-Desc_6.Text = "Dex v2.0.1\nEdited by Google Chrome & CriShoux"
+Desc_6.Text = "Dex"
 Desc_6.TextColor3 = Color3.fromRGB(197, 28, 70)
 Desc_6.TextSize = 24
 Desc_6.TextWrapped = true
@@ -2544,7 +2567,7 @@ return ROBLOX
 end
 
 local D_E_X = CreateGui()
-D_E_X.Parent = coregui.RobloxGui;
+ParentGui(D_E_X)
 
 spawn(function()
 
@@ -7045,7 +7068,7 @@ Change log:
 	
 --]]
 
-wait(0.2)
+wait(0.01)
 
 -- Services
 local Teams = game:GetService("Teams")
@@ -10097,6 +10120,6 @@ function ScrambleNames(A)
 	end
 end
 
-wait(.25)
+wait()
 
-D_E_X.Parent = coregui
+ParentGui(D_E_X)
