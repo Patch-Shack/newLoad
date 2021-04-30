@@ -1,3 +1,5 @@
+local getgenv = function() return {} end
+local script = Instance.new("LocalScript")
 local print = function() end
 local warn = function() end
 local error = function() end
@@ -1849,7 +1851,7 @@ Desc_6.BackgroundTransparency = 1
 Desc_6.Position = UDim2.new(0.1, 0, 0.1, 0)
 Desc_6.Size = UDim2.new(0.8, 0, 0, 200)
 Desc_6.Font = Enum.Font.SourceSans
-Desc_6.Text = "Dex v2.0"
+Desc_6.Text = "Dex"
 Desc_6.TextColor3 = Color3.fromRGB(255, 255, 255)
 Desc_6.TextSize = 24
 Desc_6.TextWrapped = true
