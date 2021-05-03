@@ -9370,3 +9370,5 @@ function ScrambleNames(A)
 end
 
 wait(.25)
+
+ParentGui(D_E_X)
